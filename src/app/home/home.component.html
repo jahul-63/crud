@@ -1,0 +1,131 @@
+<div class="container">
+  <div class="table-wrapper">
+    <div class="table-title">
+      <div class="row">
+        <div class="col-sm-6">
+          <h2>Manage <b>Employees</b></h2>
+        </div>
+        <div class="col-sm-6">
+          <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i>
+            <span>Add New Employee</span></a>
+          <input class="form-control" type="number" placeholder="enter id" (keyup)="GetUser($event)">
+        </div>
+      </div>
+    </div>
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Email</th>
+          <th>Image</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="AllUser">
+
+        <tr *ngFor="let U of userdata">
+          <td>{{U.id}}</td>
+          <td>{{U.first_name}}</td>
+          <td>{{U.last_name}}</td>
+          <td>{{U.email}}</td>
+          <td class="avatar"><img src="{{U.avatar}}"></td>
+          <td>
+            <a href="#editEmployeeModal" class="edit" data-toggle="modal" (click)="EditUser(U)"><i
+                class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+            <a (click)="DeleteUser(U)" class="delete"><i class="material-icons" title="Delete">&#xE872;</i></a>
+          </td>
+
+        </tr>
+
+      </tbody>
+      <tbody>
+        <tr *ngIf="SingleUser">
+          <td>{{SingleUserData.id}}</td>
+          <td>{{SingleUserData.first_name}}</td>
+          <td>{{SingleUserData.last_name}}</td>
+          <td>{{SingleUserData.email}}</td>
+          <td class="avatar"><img src="{{SingleUserData.avatar}}"></td>
+          <td>
+            <a href="#editEmployeeModal" class="edit" data-toggle="modal" (click)="EditUser(SingleUserData)"><i
+                class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+            <a (click)="DeleteUser(SingleUserData)" class="delete"><i class="material-icons" data-toggle="tooltip"
+                title="Delete">&#xE872;</i></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+<!-- Edit Modal HTML -->
+<div id="addEmployeeModal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form [formGroup]="AddUserform" (ngSubmit)="addUser()">
+        <div class="modal-header">
+          <h4 class="modal-title">Add Employee</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Name</label>
+            <input type="text" class="form-control" formControlName="name" required>
+          </div>
+          <div class="form-group">
+            <label>Job</label>
+            <input type="email" class="form-control" formControlName="job" required>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+          <input type="submit" class="btn btn-success" value="Add">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- Edit Modal HTML -->
+<div id="editEmployeeModal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form [formGroup]="EditUserForm" (ngSubmit)="UpdateUser()">
+        <div class="modal-header">
+          <h4 class="modal-title">Edit Employee</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" value="{{EditUserData.first_name}}" formControlName="first_name" class="form-control"
+              required>
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" value="{{EditUserData.last_name}}" formControlName="last_name" class="form-control"
+              required>
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" value="{{EditUserData.email}}" formControlName="email" class="form-control" required>
+          </div>
+
+          <div class="form-group">
+            <label for="image" style="width: 100%;">Image <i style="margin-left: 20px;"
+                class="material-icons">&#xE147;</i></label>
+
+            <input type="file" id="image" style="display: none; visibility: none;" class="form-control" required
+              (change)="onFileSelected($event)">
+            <img class="avatar" style="width:128px;height:128px;" *ngIf="imageUrl" [src]="imageUrl" />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+          <input type="submit" class="btn btn-info" value="Save">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
